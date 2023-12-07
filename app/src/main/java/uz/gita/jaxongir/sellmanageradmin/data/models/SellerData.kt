@@ -8,5 +8,5 @@ data class SellerData(
     var sellerName: String,
     var password: String,
 ) : Serializable{
-    fun toRequest() : SellerRequest = SellerRequest(name = sellerName, password = password)
+    fun toRequest() : SellerRequest = SellerRequest(id = sellerId, name = sellerName, password = password)
 }
