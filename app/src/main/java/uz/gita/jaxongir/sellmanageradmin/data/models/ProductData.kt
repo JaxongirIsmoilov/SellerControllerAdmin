@@ -7,7 +7,7 @@ data class ProductData(
     val id: String,
     val name: String,
     val count: Int,
-    val initialPrice: Int,
+    val initialPrice: Double,
     val isValid: Boolean,
     val comment: String
 ) : Serializable {

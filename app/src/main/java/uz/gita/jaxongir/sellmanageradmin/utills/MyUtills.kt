@@ -12,7 +12,7 @@ fun DataSnapshot.toProductData() : ProductData = ProductData(
     id = child("id").getValue(String::class.java) ?: "",
     name = child("name").getValue(String::class.java) ?: "",
     count = child("count").getValue(Int::class.java) ?: 0,
-    initialPrice = child("initialPrice").getValue(Int::class.java) ?: 0,
+    initialPrice = child("initialPrice").getValue(Double::class.java) ?: 0.0,
     isValid = child("isValid").getValue(Boolean::class.java) ?: true,
     comment = child("comment").getValue(String::class.java) ?: ""
 )

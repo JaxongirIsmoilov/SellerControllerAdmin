@@ -3,10 +3,8 @@ package uz.gita.jaxongir.sellmanageradmin.data.repository
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -76,9 +74,13 @@ class AppRepositoryImpl @Inject constructor(
             )
         }
 
-    override fun addProduct(productData: ProductData): Flow<Result<String>> = callbackFlow {
+    override fun addProduct(
+        name: String,
+        count: Int,
+        initialPrice: Double,
+    ): Flow<Result<String>> = callbackFlow {
         val id = UUID.randomUUID().toString()
-        realtimeDatabase.reference.child("Products").child(id).setValue(productData.toRequest())
+        realtimeDatabase.reference.child("Products").child(id).setValue(ProductData(id = id, name = name, count = count, initialPrice = initialPrice, isValid = true, comment = "").toRequest())
             .addOnSuccessListener {
                 trySend(Result.success("Product added successfully"))
             }
@@ -89,8 +91,9 @@ class AppRepositoryImpl @Inject constructor(
 
     }
 
-    override fun editProduct(productData: ProductData): Flow<Result<String>> = callbackFlow{
-        realtimeDatabase.reference.child("Products").child(productData.id).setValue(productData.toRequest())
+    override fun editProduct(productData: ProductData): Flow<Result<String>> = callbackFlow {
+        realtimeDatabase.reference.child("Products").child(productData.id)
+            .setValue(productData.toRequest())
             .addOnSuccessListener {
                 trySend(Result.success("Product added successfully"))
             }
@@ -100,8 +103,9 @@ class AppRepositoryImpl @Inject constructor(
         awaitClose()
     }
 
-    override fun makeInvalid(productData: ProductData): Flow<Result<String>> = callbackFlow{
-        realtimeDatabase.reference.child("Products").child(productData.id).child("isValid").setValue(false)
+    override fun makeInvalid(productData: ProductData): Flow<Result<String>> = callbackFlow {
+        realtimeDatabase.reference.child("Products").child(productData.id).child("isValid")
+            .setValue(false)
             .addOnSuccessListener {
                 trySend(Result.success("Product is made invalid"))
             }
@@ -115,7 +119,7 @@ class AppRepositoryImpl @Inject constructor(
         realtimeDatabase.getReference("Products")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    trySend(Result.success(snapshot.children.map {it.toProductData()}))
+                    trySend(Result.success(snapshot.children.map { it.toProductData() }))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
