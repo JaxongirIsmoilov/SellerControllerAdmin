@@ -1,15 +1,19 @@
 package uz.gita.jaxongir.sellmanageradmin.data.repository
 
+import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import uz.gita.jaxongir.sellmanageradmin.data.models.ProductData
 import uz.gita.jaxongir.sellmanageradmin.data.models.SellerData
+import uz.gita.jaxongir.sellmanageradmin.data.source.local.pref.MyPref
 import uz.gita.jaxongir.sellmanageradmin.domain.repository.AppRepository
 import uz.gita.jaxongir.sellmanageradmin.utills.getAllLive
 import uz.gita.jaxongir.sellmanageradmin.utills.toProductData
@@ -17,9 +21,10 @@ import java.util.UUID
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
-    private val firestoreDatabase: FirebaseFirestore,
-    private val realtimeDatabase: FirebaseDatabase
+    private val myPref: MyPref
 ) : AppRepository {
+    val firestoreDatabase = Firebase.firestore
+    val realtimeDatabase = Firebase.database
     override fun addSeller(name: String, password: String): Flow<Result<String>> = callbackFlow {
         val id: String = UUID.randomUUID().toString()
         firestoreDatabase.collection("Sellers").whereEqualTo("name", name).get()
@@ -118,6 +123,11 @@ class AppRepositoryImpl @Inject constructor(
                 }
             })
         awaitClose()
+    }
+
+    override fun login(name: String, password: String): Boolean {
+        myPref.setLogin(true)
+        return name == "admin" && password == "123"
     }
 
 

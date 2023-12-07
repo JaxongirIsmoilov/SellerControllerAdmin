@@ -14,4 +14,6 @@ interface AppRepository {
     fun editProduct(productData: ProductData) : Flow<Result<String>>
     fun makeInvalid(productData: ProductData) : Flow<Result<String>>
     fun getAllProducts() : Flow<Result<List<ProductData>>>
+
+    fun login(name: String, password: String) : Boolean
 }

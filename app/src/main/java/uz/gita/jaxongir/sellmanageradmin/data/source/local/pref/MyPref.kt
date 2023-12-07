@@ -9,6 +9,7 @@ import javax.inject.Singleton
 class MyPref @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
+
     fun setLogin(bool:Boolean) = sharedPreferences.edit().putBoolean(IS_LOGIN, bool).apply()
 
     fun isLogin():Boolean = sharedPreferences.getBoolean(IS_LOGIN, false) ?: false
