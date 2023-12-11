@@ -7,10 +7,12 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import uz.gita.jaxongir.sellmanageradmin.data.repository.AppRepositoryImpl
 import uz.gita.jaxongir.sellmanageradmin.domain.repository.AppRepository
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 interface RepositoryModule {
     @Binds
+    @Singleton
     fun bindsAppRepository(impl : AppRepositoryImpl) : AppRepository
 }

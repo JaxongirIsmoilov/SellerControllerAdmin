@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import uz.gita.jaxongir.sellmanageradmin.data.models.ProductData
 import uz.gita.jaxongir.sellmanageradmin.domain.repository.AppRepository
+import uz.gita.jaxongir.sellmanageradmin.utills.myLog
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,22 +23,41 @@ class AddProductViewModel @Inject constructor(
 
     override fun onEventDispatcher(intent: AddProductContract.Intent) {
         when (intent) {
+
+            AddProductContract.Intent.Back -> {
+                viewModelScope.launch {
+                    direction.back()
+                }
+            }
+
             is AddProductContract.Intent.AddProduct -> {
+                myLog("Add Product viewmodel")
                 viewModelScope.launch {
                     repository.addProduct(
-                        name = intent.name,
-                        count = intent.count,
-                        initialPrice = intent.initialPrice
+                        ProductData(
+                            id = "${UUID.randomUUID()}",
+                            name = intent.name,
+                            count = intent.count,
+                            initialPrice = intent.initialPrice,
+                            soldPrice = 0.0,
+                            comment = "",
+                            isValid = true,
+                            sellerName = ""
+                        )
                     ).onEach {
-                        it.onSuccess {
-                            sideEffect.emit(AddProductContract.SideEffect.ShowNotification(it))
-                        }
-                        it.onFailure {
-                            sideEffect.emit(AddProductContract.SideEffect.ShowNotification(it.message.toString()))
-                        }
+                        direction.back()
+                        myLog("Inside On Each viewmodel")
+//                        if (it) {
+//                            sideEffect.emit(AddProductContract.SideEffect.ShowNotification(it))
+//                        } else {
+//
+//                            sideEffect.emit(AddProductContract.SideEffect.ShowNotification(it.message.toString()))
+//                        }
+
+
                     }.launchIn(viewModelScope)
 
-                    direction.back()
+
                 }
             }
         }

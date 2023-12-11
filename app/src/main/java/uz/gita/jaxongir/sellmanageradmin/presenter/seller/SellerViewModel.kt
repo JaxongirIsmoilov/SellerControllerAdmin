@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -37,9 +38,6 @@ class SellerViewModel @Inject constructor(
             is SellerScreenContract.Intent.DeleteSeller -> {
                 repository.deleteSeller(intent.data)
             }
-            is SellerScreenContract.Intent.EditSeller -> {
-                repository.editSeller(intent.data)
-            }
             is SellerScreenContract.Intent.MoveToEditScreen -> {
                 viewModelScope.launch {
                     direction.moveToEditScreen(intent.sellerData)
@@ -54,10 +52,9 @@ class SellerViewModel @Inject constructor(
             .onStart { uiState.update { it.copy(isLoading = true) } }
             .onEach {
                 it.onSuccess { ls ->
-
                     uiState.update { it.copy(ls) }
                 }
-            }
+            }.launchIn(viewModelScope)
     }
 
 }

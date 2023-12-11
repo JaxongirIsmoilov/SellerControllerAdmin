@@ -10,6 +10,7 @@ interface AddProductContract {
     }
 
     interface Intent {
+        object Back : Intent
         data class AddProduct(
             val name: String,
             val count: Int,

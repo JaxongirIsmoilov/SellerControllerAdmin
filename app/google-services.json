@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "864636029567",
-    "project_id": "sellercontroller-47618",
-    "storage_bucket": "sellercontroller-47618.appspot.com"
+    "project_number": "550057187076",
+    "project_id": "students-d14be",
+    "storage_bucket": "students-d14be.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:864636029567:android:05620132be3660941b8d4a",
+        "mobilesdk_app_id": "1:550057187076:android:f4995d1f47ec8f1018e251",
         "android_client_info": {
           "package_name": "uz.gita.jaxongir.sellmanageradmin"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAg8OHRTEhj4kOgWkiWz2TefGJIqMTkbqA"
+          "current_key": "AIzaSyA9c0Kgh4SqDAZD0FN14Qp0DU10Tybdnq4"
         }
       ],
       "services": {

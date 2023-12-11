@@ -1,0 +1,1 @@
+package uz.gita.jaxongir.sellmanageradmin.notificationimport com.google.firebase.messaging.FirebaseMessagingServiceclass PushNotification : FirebaseMessagingService() {    override fun onNewToken(token: String) {        super.onNewToken(token)    }}

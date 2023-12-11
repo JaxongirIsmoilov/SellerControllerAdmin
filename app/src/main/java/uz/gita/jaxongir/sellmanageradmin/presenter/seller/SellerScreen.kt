@@ -66,6 +66,7 @@ fun SellerScreenContent(
     uiState: State<SellerScreenContract.UIState>,
     onEventDispatcher: (SellerScreenContract.Intent) -> Unit,
 ) {
+    onEventDispatcher.invoke(SellerScreenContract.Intent.Load)
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar(
@@ -98,7 +99,7 @@ fun SellerScreenContent(
                             onEventDispatcher.invoke(SellerScreenContract.Intent.DeleteSeller(data))
                         },
                         onClickEdit = {
-                            onEventDispatcher.invoke(SellerScreenContract.Intent.EditSeller(it))
+                            onEventDispatcher.invoke(SellerScreenContract.Intent.MoveToEditScreen(it))
                         }
                     )
                 }

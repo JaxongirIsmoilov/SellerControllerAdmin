@@ -1,4 +1,4 @@
-package uz.gita.jaxongir.sellmanageradmin.presenter.editSeller
+package uz.gita.jaxongir.sellmanageradmin.presenter.editProduct
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,35 +12,34 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(
-    private val direction: EditDirection,
+    private val direction: EditProductDirection,
     private val repository: AppRepository
-) : ViewModel(), EditContract.ViewModel {
-
+) : ViewModel(), EditProductContract.ViewModel {
     override val sideEffect =
-        MutableStateFlow<EditContract.SideEffect>(EditContract.SideEffect.Init)
+        MutableStateFlow<EditProductContract.SideEffect>(EditProductContract.SideEffect.Init)
 
-    override fun eventDispatchers(intent: EditContract.Intent) {
+    override fun eventDispatchers(intent: EditProductContract.Intent) {
         when (intent) {
-            EditContract.Intent.MoveToSellerScreen -> {
+            EditProductContract.Intent.MoveToProductsScreen -> {
                 viewModelScope.launch {
                     direction.back()
                 }
             }
 
-            is EditContract.Intent.EditSeller -> {
-
+            is EditProductContract.Intent.EditSeller -> {
                 viewModelScope.launch {
-                    repository.editSeller(
-                        intent.sellerData
-                    ).onEach {
+                    repository.editProduct(intent.productData).onEach {
                         it.onSuccess {
-                            sideEffect.emit(EditContract.SideEffect.ShowNotification(it))
+                            sideEffect.emit(EditProductContract.SideEffect.ShowToast(it))
+                        }
+                        it.onFailure {
+                            sideEffect.emit(EditProductContract.SideEffect.ShowToast(it.message.toString()))
                         }
                     }.launchIn(viewModelScope)
                     direction.back()
                 }
-
             }
         }
     }
+
 }

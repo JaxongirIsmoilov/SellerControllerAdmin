@@ -10,8 +10,13 @@ class MyPref @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
-    fun setLogin(bool:Boolean) = sharedPreferences.edit().putBoolean(IS_LOGIN, bool).apply()
+    fun setLogin(bool: Boolean) = sharedPreferences.edit().putBoolean(IS_LOGIN, bool).apply()
 
-    fun isLogin():Boolean = sharedPreferences.getBoolean(IS_LOGIN, false) ?: false
+    fun isLogin(): Boolean = sharedPreferences.getBoolean(IS_LOGIN, false)
+
+    fun setAdminToken(token: String) =
+        sharedPreferences.edit().putString("TOKEN", token).apply()
+
+    fun getAdminToken(): String = sharedPreferences.getString("TOKEN", "")!!
 
 }

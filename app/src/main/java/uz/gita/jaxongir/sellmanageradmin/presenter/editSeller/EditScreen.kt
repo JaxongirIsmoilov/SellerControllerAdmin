@@ -1,5 +1,6 @@
 package uz.gita.jaxongir.sellmanageradmin.presenter.editSeller
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,7 @@ class EditScreen(private val sellerData: SellerData): AndroidScreen() {
     @Composable
     override fun Content() {
         val viewModel = getViewModel<EditViewModel>()
+        val context = LocalContext.current
         EditScreenContent(onEventDispatcher = viewModel::eventDispatchers, sellerData = sellerData)
         val sideEffect = viewModel.sideEffect.collectAsState()
         when(sideEffect.value){
@@ -48,6 +51,10 @@ class EditScreen(private val sellerData: SellerData): AndroidScreen() {
             is EditContract.SideEffect.ShowNotification -> {
                 Dialog(text = (sideEffect.value as EditContract.SideEffect.ShowNotification).message ) {
                 }
+            }
+
+            is EditContract.SideEffect.ShowToast -> {
+                Toast.makeText(context, (sideEffect.value as EditContract.SideEffect.ShowToast).message, Toast.LENGTH_SHORT).show()
             }
         }
     }

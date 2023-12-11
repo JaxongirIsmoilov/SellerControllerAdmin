@@ -8,8 +8,12 @@ import uz.gita.jaxongir.sellmanageradmin.presenter.addProduct.AddProductDirectio
 import uz.gita.jaxongir.sellmanageradmin.presenter.addProduct.AddProductDirectionImpl
 import uz.gita.jaxongir.sellmanageradmin.presenter.addSeller.AddSellerDirection
 import uz.gita.jaxongir.sellmanageradmin.presenter.addSeller.AddSellerScreenDirectionImpl
+import uz.gita.jaxongir.sellmanageradmin.presenter.editProduct.EditProductDirection
+import uz.gita.jaxongir.sellmanageradmin.presenter.editProduct.EditProductDirectionImpl
 import uz.gita.jaxongir.sellmanageradmin.presenter.editSeller.EditDirection
 import uz.gita.jaxongir.sellmanageradmin.presenter.editSeller.EditDirectionImpl
+import uz.gita.jaxongir.sellmanageradmin.presenter.invalid.ExpiredDirection
+import uz.gita.jaxongir.sellmanageradmin.presenter.invalid.ExpiredDirectionImpl
 import uz.gita.jaxongir.sellmanageradmin.presenter.login.LoginDirection
 import uz.gita.jaxongir.sellmanageradmin.presenter.login.LoginDirectionImpl
 import uz.gita.jaxongir.sellmanageradmin.presenter.products.ProductsDirection
@@ -37,4 +41,10 @@ interface DirectionModule {
 
     @Binds
     fun bindsProductsDirection(impl : ProductsDirectionImpl) : ProductsDirection
+
+    @Binds
+    fun bindsEditProductDirection(impl : EditProductDirectionImpl) : EditProductDirection
+
+    @Binds
+    fun bindsExpiredProductsDirection(impl : ExpiredDirectionImpl) : ExpiredDirection
 }

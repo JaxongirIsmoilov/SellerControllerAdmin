@@ -23,9 +23,6 @@ interface SellerScreenContract {
             val data: SellerData,
         ) : Intent
 
-        data class EditSeller(
-            val data: SellerData,
-        ) : Intent
     }
 
 }
